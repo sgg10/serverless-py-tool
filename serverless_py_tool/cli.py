@@ -69,7 +69,8 @@ class CLIGroup(click.Group):
                         ["command"]
                     )
                     group.add_command(mod.command, name=cmd_name)
-                except ImportError:
+                except ImportError as e:
+                    print(e)
                     continue
 
             return group

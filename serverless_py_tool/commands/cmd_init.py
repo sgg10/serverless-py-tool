@@ -2,10 +2,12 @@ from typing import List, Optional
 
 import click
 
-from serverless_py_tool.services.create_project import (BuildStrategies,
-                                                        IaCTechnologies,
-                                                        PyVenvManager,
-                                                        create_config_file)
+from serverless_py_tool.services.create_project import (
+    BuildStrategies,
+    IaCTechnologies,
+    PyVenvManager,
+    run
+)
 
 venv_opts = [opt.value for opt in PyVenvManager]
 build_opts = [opt.value for opt in BuildStrategies]
@@ -105,7 +107,7 @@ def command(
         ""
     )
 
-    create_config_file(
+    run(
         py_venv_manager=py_venv_manager,
         aws_region=aws_region,
         lambda_base_directory=lambda_base_directory,
