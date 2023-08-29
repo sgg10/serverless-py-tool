@@ -55,6 +55,7 @@ def create_config_file(
         - lambda_layers_prefix (str, optional): Prefix for Lambda layer names.
         - lambda_layers_suffix (str, optional): Suffix for Lambda layer names.
         - iac_technology ({"sam", "cloudformation", "terraform"}, optional): Infrastructure as Code technology to be used.
+        - config_filename(str, optional): Config filename. Default ".spt-config.json".
 
     The function will create the specified directories if they don't exist.
     The resulting configuration is saved in a '.spt-config.json' file. If this file
