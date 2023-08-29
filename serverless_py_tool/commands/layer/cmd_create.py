@@ -6,7 +6,7 @@ from serverless_py_tool.services.layer.create_layer import run
 
 
 @click.command(help="Create Lambda layer")
-@click.argument("layers", nargs=-1, type=str)
+@click.argument("layers", nargs=-1, type=str, required=True)
 @click.option(
     "-c", "--config-file", "config_file",
     default=".spt-config.json", help="Path to the configuration file."

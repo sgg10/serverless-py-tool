@@ -37,7 +37,7 @@ def prompt_for_choice_if_none(
         if not confirm or click.confirm(f"Do you want to select {prompt_text}?"):
             return click.prompt(
                 f"Select your {prompt_text}: ",
-                type=click.Choice(choices, case_sensitive=False),
+                type=click.Choice(choices, case_sensitive=True),
                 default=default_choice
             )
     return value
