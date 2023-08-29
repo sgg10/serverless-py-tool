@@ -1,6 +1,6 @@
 from click.testing import CliRunner
 
-from serverlesspytool.cli import cli
+from serverless_py_tool.cli import cli
 
 
 def test_cli_base_execution():
