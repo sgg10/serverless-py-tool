@@ -39,6 +39,7 @@ class CLIGroup(click.Group):
         groups = [
             d for d in os.listdir(self.commands_directory)
             if os.path.isdir(os.path.join(self.commands_directory, d))
+            and not d.startswith("__") and not d.endswith("__")
         ]
         return sorted(commands) + sorted(groups)
 
@@ -62,7 +63,7 @@ class CLIGroup(click.Group):
             for cmd_name in commands:
                 try:
                     mod = __import__(
-                        f"commands.{name}.cmd_{cmd_name}",
+                        f"serverless_py_tool.commands.{name}.cmd_{cmd_name}",
                         None,
                         None,
                         ["command"]
@@ -75,12 +76,13 @@ class CLIGroup(click.Group):
         else:
             try:
                 mod = __import__(
-                    f"commands.cmd_{name}",
+                    f"serverless_py_tool.commands.cmd_{name}",
                     None,
                     None,
                     ["command"]
                 )
-            except ImportError:
+            except ImportError as e:
+                print(e)
                 return
             return mod.command
 
