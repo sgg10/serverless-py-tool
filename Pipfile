@@ -9,7 +9,9 @@ click = "*"
 [dev-packages]
 pytest = "*"
 pre-commit = "*"
+isort = "*"
+flake8 = "*"
 
 [requires]
 python_version = "3.11"
-python_full_version = "3.11.3"
+python_full_version = "3.11"
