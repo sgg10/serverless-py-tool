@@ -5,6 +5,7 @@ name = "pypi"
 
 [packages]
 click = "*"
+serverless-py-tool = {editable = true, path = "."}
 
 [dev-packages]
 pytest = "*"
