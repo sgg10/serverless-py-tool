@@ -2,7 +2,7 @@ import json
 
 import click
 
-from serverless_py_tool.services.install_layers import run
+from serverless_py_tool.services.layer.install_layers import run
 
 
 @click.command(help="Install modules from Lambda layers to the site-packages directory.")
