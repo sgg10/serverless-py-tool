@@ -1,3 +1,4 @@
+import sys
 import json
 from enum import Enum
 from pathlib import Path
@@ -72,6 +73,7 @@ def create_config_file(
         for param, value in locals().items()
         if value
     }
+    config["venv_path"] = sys.prefix
 
     for directory in (lambda_base_directory, lambda_layers_base_directory):
         if not directory:

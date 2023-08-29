@@ -1,5 +1,6 @@
-import json
 import os
+import sys
+import json
 
 from click.testing import CliRunner
 
@@ -15,7 +16,8 @@ config = {
     "lambda_layers_base_directory": "common",
     "lambda_layers_prefix": "layer_prefix",
     "lambda_layers_suffix": "layer_suffix",
-    "iac_technology": "terraform"
+    "iac_technology": "terraform",
+    "venv_path": sys.prefix
 }
 
 

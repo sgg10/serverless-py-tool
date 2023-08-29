@@ -7,10 +7,3 @@ repos:
         language: system
         types: [python]
         pass_filenames: false
-
-      - id: isort
-        name: run isort
-        entry: isort
-        language: system
-        types: [python]
-        pass_filenames: true
