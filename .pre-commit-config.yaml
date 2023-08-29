@@ -14,10 +14,3 @@ repos:
         language: system
         types: [python]
         pass_filenames: true
-
-      - id: flake8
-        name: run flake8
-        entry: flake8
-        language: system
-        types: [python]
-        pass_filenames: true
