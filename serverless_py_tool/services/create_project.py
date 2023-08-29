@@ -1,4 +1,3 @@
-import sys
 import json
 from enum import Enum
 from pathlib import Path
@@ -24,7 +23,7 @@ class IaCTechnologies(str, Enum):
     TERRAFORM = "terraform"
 
 
-def create_config_file(
+def run(
     py_venv_manager: PyVenvManager = "venv",
     aws_region: Optional[str] = None,
     lambda_base_directory: Optional[str] = None,
@@ -74,7 +73,6 @@ def create_config_file(
         for param, value in locals().items()
         if value
     }
-    config["venv_path"] = sys.prefix
 
     for directory in (lambda_base_directory, lambda_layers_base_directory):
         if not directory:
