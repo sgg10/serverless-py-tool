@@ -5,7 +5,7 @@ import click
 from click.core import Command, Context
 from click.formatting import HelpFormatter
 
-commands_type = MutableMapping[str, Command] | Sequence[Command]
+commands_type = MutableMapping[str, Command] or Sequence[Command]
 
 
 class CLIGroup(click.Group):
@@ -43,7 +43,7 @@ class CLIGroup(click.Group):
         ]
         return sorted(commands) + sorted(groups)
 
-    def get_command(self, ctx: Context, name: str) -> Command | None:
+    def get_command(self, ctx: Context, name: str) -> Command or None:
         if os.path.isdir(os.path.join(self.commands_directory, name)):
             group_path = os.path.join(
                 os.path.dirname(__file__),
