@@ -1,34 +1,20 @@
 import json
-from enum import Enum
 from pathlib import Path
 from typing import Optional
 
 import click
 
-
-class PyVenvManager(str, Enum):
-    VENV = "venv"
-    PIPENV = "pipenv"
-
-
-class BuildStrategies(str, Enum):
-    ZIP = "zip"
-    DOCKER = "docker"
-    REFERENCE = "reference"
-
-
-class IaCTechnologies(str, Enum):
-    SAM = "sam"
-    CLOUDFORMATION = "cloudformation"
-    TERRAFORM = "terraform"
-
+from serverless_py_tool.utils.enums import BuildStrategies, IaCTechnologies, PyVenvManager, PythonRuntime
 
 def run(
     py_venv_manager: PyVenvManager = "venv",
+    python_runtime: PythonRuntime = "python3.9",
     aws_region: Optional[str] = None,
     lambda_base_directory: Optional[str] = None,
     lambda_prefix: Optional[str] = None,
     lambda_suffix: Optional[str] = None,
+    lambda_filename: Optional[str] = "handler",
+    lambda_handler: Optional[str] = "lambda_handler",
     lambda_build_strategy: BuildStrategies = "reference",
     lambda_layers_base_directory: Optional[str] = None,
     lambda_layers_prefix: Optional[str] = None,
@@ -45,6 +31,7 @@ def run(
 
     Parameters:
         - py_venv_manager ({"venv", "pipenv"}): Specifies the Python virtual environment manager. Default is "venv".
+        - python_runtime ({"python3.7",...,"python3.11"}): Specify Python Runtime for lambda function creation
         - aws_region (str, optional): AWS region to be used for the Lambda functions.
         - lambda_base_directory (str, optional): Base directory for Lambda functions.
         - lambda_prefix (str, optional): Prefix for Lambda function names.

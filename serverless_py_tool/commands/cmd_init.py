@@ -2,16 +2,18 @@ from typing import List, Optional
 
 import click
 
-from serverless_py_tool.services.create_project import (
+from serverless_py_tool.services.create_project import run
+from serverless_py_tool.utils.enums import (
     BuildStrategies,
     IaCTechnologies,
     PyVenvManager,
-    run
+    PythonRuntime
 )
 
 venv_opts = [opt.value for opt in PyVenvManager]
 build_opts = [opt.value for opt in BuildStrategies]
 iac_opts = [opt.value for opt in IaCTechnologies]
+runtimes_opts = [opt.value for opt in PythonRuntime]
 
 
 def prompt_for_choice_if_none(
@@ -50,10 +52,19 @@ def prompt_for_choice_if_none(
     required=False,
     help="Python virtual environment manager to use."
 )
+@click.option(
+    "--python-runtime",
+    type = click.Choice(runtimes_opts),
+    default = None,
+    required = False,
+    help = "Python runtime for lambda creation"
+)
 @click.option("--aws-region", prompt=True, default="", help="AWS region for deployment.")
 @click.option("--lambda-base-directory", default="lambdas", prompt=True, help="Base directory for Lambda functions.")
 @click.option("--lambda-prefix", prompt=True, default="", help="Prefix for Lambda function names.")
 @click.option("--lambda-suffix", prompt=True, default="", help="Suffix for Lambda function names.")
+@click.option("--lambda-filename", prompt=True, default="handler", help="File name for each Lambda to be created")
+@click.option("--lambda-handler", prompt=True, default="lambda_handler", help="Handler for each Lambda to be created")
 @click.option(
     "--lambda-build-strategy",
     type=click.Choice(build_opts),
@@ -74,10 +85,13 @@ def prompt_for_choice_if_none(
 @click.option("--config-filename", default=".spt-config.json", help="SPT config file name")
 def command(
     py_venv_manager: Optional[str],
+    python_runtime: Optional[str],
     aws_region: Optional[str],
     lambda_base_directory: str,
     lambda_prefix: Optional[str],
     lambda_suffix: Optional[str],
+    lambda_filename: Optional[str],
+    lambda_handler: Optional[str],
     lambda_build_strategy: Optional[str],
     lambda_layers_base_directory: str,
     lambda_layers_prefix: Optional[str],
@@ -90,6 +104,14 @@ def command(
         "venv manager",
         venv_opts,
         PyVenvManager.VENV.value
+    )
+
+    python_runtime = prompt_for_choice_if_none(
+        python_runtime,
+        "python runtime",
+        runtimes_opts,
+        PythonRuntime.PY39.value,
+        False
     )
 
     lambda_build_strategy = prompt_for_choice_if_none(
@@ -109,10 +131,13 @@ def command(
 
     run(
         py_venv_manager=py_venv_manager,
+        python_runtime=python_runtime,
         aws_region=aws_region,
         lambda_base_directory=lambda_base_directory,
         lambda_prefix=lambda_prefix,
         lambda_suffix=lambda_suffix,
+        lambda_filename=lambda_filename,
+        lambda_handler=lambda_handler,
         lambda_build_strategy=lambda_build_strategy,
         lambda_layers_base_directory=lambda_layers_base_directory,
         lambda_layers_prefix=lambda_layers_prefix,
