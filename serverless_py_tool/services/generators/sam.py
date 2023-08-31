@@ -3,7 +3,7 @@ from typing import List
 
 class SAMGenerator:
 
-    def _init_(self, python_runtime: str, lambda_packege: str, lambda_handler: str) -> None:
+    def __init__(self, python_runtime: str, lambda_packege: str, lambda_handler: str) -> None:
         self.runtime = python_runtime
         self.lambda_layers_names = {}
         self.output = {
@@ -39,7 +39,7 @@ class SAMGenerator:
         }
         self.output["Outputs"][f"{resource_name}ARN"] = {
             "Description": f"{layer_name} ARN",
-            "Value": f"!Ref {resource_name}"
+            "Value": {"Ref": resource_name}
         }
 
     def add_lambda(self, lambda_name: str, lambda_path: str, envs: List[str] = [], layers: List[str] = []):
@@ -58,13 +58,13 @@ class SAMGenerator:
             }
 
         if layers:
-            associated_layer = ( f"!Ref {self.lambda_layers_names.get(l)}" for l in layers )
+            associated_layer = ( { "Ref": self.lambda_layers_names.get(l) } for l in layers )
             resource["Properties"]["Layers"] = list(filter(lambda x: x, associated_layer))
 
         self.output["Resources"][resource_name] = resource
         self.output["Outputs"][f"{resource_name}ARN"] = {
             "Description": f"{lambda_name} ARN",
-            "Value": f"!Ref {resource_name}"
+            "Value": {"Fn::GetAtt": [resource_name, "Arn"]}
         }
 
 

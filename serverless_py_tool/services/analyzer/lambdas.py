@@ -59,7 +59,8 @@ def analyze_lambda_fucntion(lambda_base_path, layers):
             with file.open("r") as f:
                 tree = ast.parse(f.read())
             visitor.visit(tree)
-            imported_modules = visitor.modules
+            env_variables = visitor.get_env_variables()
+            imported_modules = visitor.get_modules()
 
             # Find assocciated layers
             for layer, content in layers.items():
@@ -68,6 +69,7 @@ def analyze_lambda_fucntion(lambda_base_path, layers):
 
         lambdas[lambda_fucntion.name] = {
             "layers": list(associated_layer),
-            "envs": list(env_variables)
+            "envs": list(env_variables),
+            "path": f"{lambda_base_path}/{lambda_fucntion.name}"
         }
     return lambdas
